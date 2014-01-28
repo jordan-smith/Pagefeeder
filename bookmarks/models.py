@@ -1,23 +1,22 @@
 from django.db import models
-from django.forms import ModelForm
-from annoying.fields import AutoOneToOneField
-
-from django.utils import timezone
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+from users.models import UserProfile
 
 class Bookmark(models.Model):
-    name = models.CharField(max_length=100)
     url = models.URLField()
-    mark_date = models.DateTimeField(default=timezone.now)
-    push_date = models.DateTimeField(blank=True, null=True)
-    personal = models.BooleanField(default=True)
-    public = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.name
+        return self.url
 
-class UserProfile(models.Model):
-    user = AutoOneToOneField('auth.user')
-    follows = models.ManyToManyField('UserProfile', related_name='followed_by')
+class Ownership(models.Model):
+    name = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
 
-    def __unicode(self):
-        return self.user.username
+class PersonalOwnership(Ownership):
+    bookmark = models.ForeignKey(Bookmark, related_name="personal_set")
+    user = models.ForeignKey(UserProfile, related_name="personal_set")
+
+class PublicOwnership(Ownership):
+    bookmark = models.ForeignKey(Bookmark, related_name="public_set")
+    user = models.ForeignKey(UserProfile, related_name="public_set")

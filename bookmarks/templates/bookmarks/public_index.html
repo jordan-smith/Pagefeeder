@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookmarks</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Bookmarks</h1>
+
+        <ol id="navigation">
+            <li><a href="{% url 'personal' %}">Personal</a></li>
+            <li><a href="{% url 'public' username=username %}">Public</a></li>
+            <li><a href="/pagefeed">Pagefeed</a></li>
+        </ol>
+    </div>
+
+    <div id="add-bookmark">
+        <h2>New Bookmark</h2>
+        <p>Paste the full url and give it a name.</p>
+        <form method="post" action=""> {% csrf_token %}
+            {{ form.as_p}}
+            <input type="submit" value="Add Bookmark"/>
+        </form>
+    </div>
+
+{% if latest_ownership_list %}
+    <table>
+    {% for ownership in latest_ownership_list %}
+        <tr>
+            <td><a href="{{ ownership.bookmark.url }}">{{ ownership.name }}</a></td>
+            <td><a href="{% url 'edit' pk=ownership.pk %}">Edit</a></td>
+            <td><a href="{% url 'public_disown' pk=ownership.pk %}">Delete</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p> No pages are bookmarked.</p>
+{% endif %}
