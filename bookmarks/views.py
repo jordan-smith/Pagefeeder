@@ -64,7 +64,7 @@ class Disown(DeleteView):
         self.object = self.get_object()
         bookmark = self.object.bookmark
         self.object.delete()
-        if not (bookmark.personal_owners.all() or bookmark.public_owners.all()):
+        if bookmark.is_orphan():
             bookmark.delete()
         return HttpResponseRedirect(self.get_success_url())
 
