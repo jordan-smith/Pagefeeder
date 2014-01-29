@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pagefeeder</title>
+</head>
+
+<body>
+    <div id="header">
+    <h1>{% block header %}{% endblock %}</h1>
+        <ol id="navigation">
+            <li><a href="{% url 'personal' %}">Personal</a></li>
+            <li><a href="{% url 'public' username=username %}">Public</a></li>
+            <li><a href="/pagefeed">Pagefeed</a></li>
+        </ol>
+        <a href="/accounts/logout">log out</a>
+    </div>
+
+    <div id="addbookmark">
+        {% block addbookmark %}
+        {% endblock %}
+    </div>
+
+    <div id="list">
+        {% block list %}{% endblock %}
+    </div>
+</body>
+</html>
