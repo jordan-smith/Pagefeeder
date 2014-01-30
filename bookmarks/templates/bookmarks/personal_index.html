@@ -12,13 +12,13 @@
 {% endblock %}
 
 {% block list %}
-{% if latest_ownership_list %}
+{% if latest_bookmark_list %}
 <table>
-    {% for ownership in latest_ownership_list %}
+    {% for bookmark in latest_bookmark_list %}
         <tr>
-            <td><a href="{{ ownership.bookmark.url }}">{{ ownership.name }}</a></td>
-            <td><a href="{% url 'edit' pk=ownership.pk %}">Edit</a></td>
-            <td><a href="{% url 'personal_disown' pk=ownership.pk %}">Delete</a></td>
+            <td><a href="{{ bookmark.url }}">{{ bookmark.personal_name }}</a></td>
+            <td><a href="{% url 'edit' bookmark.pk %}">Edit</a></td>
+            <td><a href="{% url 'remove_personal' bookmark.pk %}">Delete</a></td>
         </tr>
     {% endfor %}
 </table>
